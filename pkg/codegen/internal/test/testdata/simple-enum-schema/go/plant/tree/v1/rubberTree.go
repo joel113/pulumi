@@ -17,6 +17,7 @@ type RubberTree struct {
 
 	Container plant.ContainerPtrOutput `pulumi:"container"`
 	Farm      pulumi.StringPtrOutput   `pulumi:"farm"`
+	Size      pulumi.StringPtrOutput   `pulumi:"size"`
 	Type      pulumi.StringOutput      `pulumi:"type"`
 }
 
@@ -29,6 +30,10 @@ func NewRubberTree(ctx *pulumi.Context,
 
 	if args.Farm == nil {
 		args.Farm = pulumi.StringPtr("(unknown)")
+	}
+	if args.Size == nil {
+		e := TreeSize("medium")
+		args.Size = &e
 	}
 	var resource RubberTree
 	err := ctx.RegisterResource("plant:tree/v1:RubberTree", name, args, &resource, opts...)
@@ -54,12 +59,14 @@ func GetRubberTree(ctx *pulumi.Context,
 type rubberTreeState struct {
 	Container *plant.Container `pulumi:"container"`
 	Farm      *string          `pulumi:"farm"`
+	Size      *string          `pulumi:"size"`
 	Type      *string          `pulumi:"type"`
 }
 
 type RubberTreeState struct {
 	Container plant.ContainerPtrInput
 	Farm      pulumi.StringPtrInput
+	Size      *TreeSize
 	Type      *RubberTreeVariety
 }
 
@@ -70,6 +77,7 @@ func (RubberTreeState) ElementType() reflect.Type {
 type rubberTreeArgs struct {
 	Container *plant.Container `pulumi:"container"`
 	Farm      *string          `pulumi:"farm"`
+	Size      *string          `pulumi:"size"`
 	Type      string           `pulumi:"type"`
 }
 
@@ -77,6 +85,7 @@ type rubberTreeArgs struct {
 type RubberTreeArgs struct {
 	Container plant.ContainerPtrInput
 	Farm      pulumi.StringPtrInput
+	Size      *TreeSize
 	Type      RubberTreeVariety
 }
 

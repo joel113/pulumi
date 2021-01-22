@@ -16,6 +16,10 @@
             {"type": "string"}
           ],
           "default": "(unknown)"
+        },
+        "size": {
+          "$ref": "#/types/plant:tree/v1:TreeSize",
+          "default": "medium"
         }
       },
       "properties": {
@@ -30,6 +34,10 @@
             {"$ref": "#/types/plant:tree/v1:Farm"},
             {"type": "string"}
           ]
+        },
+        "size": {
+          "$ref": "#/types/plant:tree/v1:TreeSize",
+          "default": "medium"
         }
       },
       "required": ["type"],
@@ -132,6 +140,20 @@
         },
         {
           "value": "Plants'R'Us"
+        }
+      ]
+    },
+    "plant:tree/v1:TreeSize": {
+      "type": "string",
+      "enum": [
+        {
+          "value": "Small"
+        },
+        {
+          "value": "Medium"
+        },
+        {
+          "value": "Large"
         }
       ]
     }

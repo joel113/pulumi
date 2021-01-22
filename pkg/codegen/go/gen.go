@@ -1011,7 +1011,15 @@ func (pkg *pkgContext) genResource(w io.Writer, r *schema.Resource, generateReso
 			}
 
 			fmt.Fprintf(w, "\tif args.%s == nil {\n", Title(p.Name))
-			fmt.Fprintf(w, "\t\targs.%s = %s(%s)\n", Title(p.Name), t, v)
+			switch p.Type.(type) {
+			case *schema.EnumType:
+				if !p.IsRequired {
+					fmt.Fprintf(w, "\te := %s(%s)\n", strings.TrimPrefix(t, "*"), v)
+					fmt.Fprintf(w, "\t\targs.%s = &e\n", Title(p.Name))
+				}
+			default:
+				fmt.Fprintf(w, "\t\targs.%s = %s(%s)\n", Title(p.Name), t, v)
+			}
 			fmt.Fprintf(w, "\t}\n")
 		}
 	}
